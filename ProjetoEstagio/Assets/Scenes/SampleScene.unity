@@ -220,7 +220,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b1068c7a066cc274f80d08ee5f05d887, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cameraSpeed: 10
+  cameraSpeed: 5
   player: {fileID: 1284172952}
 --- !u!1 &567384630
 GameObject:
@@ -369,6 +369,10 @@ PrefabInstance:
     - target: {fileID: 4469325575211362496, guid: dd4f783c69359b14d96008b40cc1f777, type: 3}
       propertyPath: m_Name
       value: Van
+      objectReference: {fileID: 0}
+    - target: {fileID: 7674527316346616125, guid: dd4f783c69359b14d96008b40cc1f777, type: 3}
+      propertyPath: carSpeed
+      value: 30
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: dd4f783c69359b14d96008b40cc1f777, type: 3}
