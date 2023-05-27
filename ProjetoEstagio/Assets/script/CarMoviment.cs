@@ -12,10 +12,13 @@ public class CarMoviment : MonoBehaviour
 
     public Vector2 car;
     public float carSpeed;
+    public bool stage1 = false, stage2 = false;
+    public bool stageUnlock = false;
 
     [SerializeField]
     private Rigidbody2D rb;
-    private bool stageUnlocked = false;
+
+    [SerializeField]
     private bool enterStageMap = false;
 
     // Start is called before the first frame update
@@ -33,38 +36,75 @@ public class CarMoviment : MonoBehaviour
 
     public void CarMove()
     {
-        Vector2 moviment = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
-        car = moviment.normalized * carSpeed;
-        rb.MovePosition(rb.position + car * Time.deltaTime);
-    }
+        float horizontalMoviment = Input.GetAxis("Horizontal");
+        float verticalMoviment = Input.GetAxis("Vertical");
+        Vector2 moviment = new Vector2(horizontalMoviment, verticalMoviment);
+        rb.velocity = moviment * carSpeed;
 
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (collision.gameObject.tag == "Map")
+        if (moviment != Vector2.zero)
         {
-            Debug.Log("collided");
-            enterStageMap = true;
+            float angle = Mathf.Atan2(horizontalMoviment, verticalMoviment) * Mathf.Rad2Deg;
+            transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
         }
     }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Map"))
+        {
+            Debug.Log("collided stage 1");
+            enterStageMap = true;
+            stage1 = true;
+        }
+
+        if (collision.gameObject.CompareTag("Map2"))
+        {
+            Debug.Log("collided stage 2");
+            enterStageMap = true;
+            stage2 = false;
+            
+            if(stageUnlock == false)
+            {
+                Debug.Log("Unlock this stage");
+            }
+            else if (stageUnlock == true)
+            {
+                stage2 = true;
+            }
+        }
+    }
+
+    private void OnCollisionExit2D(Collision2D collision)
+    {
+        enterStageMap = false;
+    }
+
 
     public void EnterStage()
     {
-        if (enterStageMap && Input.GetKeyDown(KeyCode.Space))
+        if (enterStageMap && stage1 && Input.GetKeyDown(KeyCode.Space))
         {
-            LoadLevel();
+            LoadLevel1();
+        }
+
+        else if (enterStageMap && stage2 && Input.GetKeyDown(KeyCode.Space))
+        {
+            LoadLevel2();
         }
     }
 
-    public void LoadLevel()
+    public void LoadLevel1()
     {
-        for (int level = 0; level < stageIndex.Length; level++)
-        {
-            if (enterStageMap && level <= 0)
-            {
-                int levelnum = stageIndex[level];
-                SceneManager.LoadScene(levelnum);
-            }
-        }
+        Debug.Log("enter");
+        int levelnum1 = stageIndex[0];
+        SceneManager.LoadScene(levelnum1);
+    }
+
+    public void LoadLevel2()
+    {
+        Debug.Log("enter2");
+        int levelnum2 = stageIndex[1];
+        SceneManager.LoadScene(levelnum2);
     }
 
 }
