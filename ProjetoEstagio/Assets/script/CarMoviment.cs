@@ -7,7 +7,6 @@ using UnityEngine.UI;
 
 public class CarMoviment : MonoBehaviour
 {
-
     public Button[] stageSelect;
 
     public Vector2 car;
@@ -15,7 +14,8 @@ public class CarMoviment : MonoBehaviour
 
     [SerializeField]
     private Rigidbody2D rb;
-    private bool stageUnlocked;
+    private bool stageUnlocked = false;
+    private bool enterStageMap = false;
 
 
     // Start is called before the first frame update
@@ -28,6 +28,7 @@ public class CarMoviment : MonoBehaviour
     void Update()
     {
         CarMove();
+        EnterStage();
     }
 
     public void CarMove()
@@ -35,17 +36,20 @@ public class CarMoviment : MonoBehaviour
         Vector2 moviment = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
         car = moviment.normalized * carSpeed;
         rb.MovePosition(rb.position + car * Time.deltaTime);
-
-        if (Input.GetKeyDown(KeyCode.Return))
-        {
-            LoadLevel();
-        }
-
     }
 
-    private void OnTriggerEnter2D(Collider2D collisionMap)
+    private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collisionMap.tag == "Map" && Input.GetKeyDown(KeyCode.Return))
+        if(collision.gameObject.tag == "Map")
+        {
+            Debug.Log("collided");
+            enterStageMap = true;
+        }
+    }
+
+    public void EnterStage()
+    {
+        if (enterStageMap && Input.GetKeyDown(KeyCode.Space))
         {
             LoadLevel();
         }
@@ -53,23 +57,23 @@ public class CarMoviment : MonoBehaviour
 
     public void LoadLevel()
     {
+        /*
         for (int stage = 0; stage < stageSelect.Length; stage++)
         {
-            if (stage >= 0)
-            {
-                stageUnlocked = true;
-                SceneManager.LoadScene(stage);
+            bool isUnlocked = IsStageUnlocked(stage);
+            stageSelect[stage].interactable = isUnlocked;
+            stageSelect[stage].gameObject.SetActive(isUnlocked);
 
-                if (Input.GetKeyDown(KeyCode.Escape))
-                {
-                    SceneManager.LoadScene("SampleScene");
-                }
-            }
-            else if (!stageUnlocked)
+            if (isUnlocked)
             {
-                Debug.Log($"need to unlock first");
+
             }
+
         }
+        */
+
+        
+
     }
 
 }
