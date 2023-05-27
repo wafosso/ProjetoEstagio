@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using Unity.VisualScripting.Antlr3.Runtime;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -16,7 +17,6 @@ public class CarMoviment : MonoBehaviour
     private Rigidbody2D rb;
     private bool stageUnlocked = false;
     private bool enterStageMap = false;
-
 
     // Start is called before the first frame update
     void Start()
