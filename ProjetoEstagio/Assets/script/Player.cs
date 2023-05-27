@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections;
 
 public class Player : MonoBehaviour
 {
@@ -17,6 +18,7 @@ public class Player : MonoBehaviour
     private void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        rb.freezeRotation = true; // Desativar rotação automática do Rigidbody2D
     }
 
     private void Update()
@@ -25,12 +27,18 @@ public class Player : MonoBehaviour
         float moveHorizontal = Input.GetAxis("Horizontal");
         float moveVertical = Input.GetAxis("Vertical");
 
-        Vector3 moveDirection = new Vector3(moveHorizontal, moveVertical, 0f);
-        transform.Translate(moveDirection * moveSpeed * Time.deltaTime);
+        Vector2 movement = new Vector2(moveHorizontal, moveVertical);
+        rb.velocity = movement * moveSpeed;
+
+        if (movement != Vector2.zero)
+        {
+            float angle = Mathf.Atan2(moveVertical, moveHorizontal) * Mathf.Rad2Deg;
+            transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
+        }
 
         if (Input.GetKeyDown(dashKey) && !isDashing)
         {
-            Vector2 dashDirection = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical")).normalized;
+            Vector2 dashDirection = new Vector2(moveHorizontal, moveVertical).normalized;
             StartCoroutine(Dash(dashDirection));
         }
 
@@ -63,7 +71,8 @@ public class Player : MonoBehaviour
             }
         }
     }
-    private System.Collections.IEnumerator Dash(Vector2 direction)
+
+    private IEnumerator Dash(Vector2 direction)
     {
         isDashing = true;
 
@@ -81,11 +90,9 @@ public class Player : MonoBehaviour
         rb.velocity = Vector2.zero;
         isDashing = false;
     }
+
     public class Ingredient : MonoBehaviour
     {
         public int ingredientCount;
     }
 }
-
-
-
