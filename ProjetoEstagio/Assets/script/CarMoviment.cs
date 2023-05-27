@@ -7,7 +7,7 @@ using UnityEngine.UI;
 
 public class CarMoviment : MonoBehaviour
 {
-    public Button[] stageSelect;
+    public int[] stageIndex;
 
     public Vector2 car;
     public float carSpeed;
@@ -40,7 +40,7 @@ public class CarMoviment : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if(collision.gameObject.tag == "Map")
+        if (collision.gameObject.tag == "Map")
         {
             Debug.Log("collided");
             enterStageMap = true;
@@ -57,23 +57,14 @@ public class CarMoviment : MonoBehaviour
 
     public void LoadLevel()
     {
-        /*
-        for (int stage = 0; stage < stageSelect.Length; stage++)
+        for (int level = 0; level < stageIndex.Length; level++)
         {
-            bool isUnlocked = IsStageUnlocked(stage);
-            stageSelect[stage].interactable = isUnlocked;
-            stageSelect[stage].gameObject.SetActive(isUnlocked);
-
-            if (isUnlocked)
+            if (enterStageMap && level <= 0)
             {
-
+                int levelnum = stageIndex[level];
+                SceneManager.LoadScene(levelnum);
             }
-
         }
-        */
-
-        
-
     }
 
 }
