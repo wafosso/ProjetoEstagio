@@ -7,7 +7,6 @@ public class Dishes : MonoBehaviour
     public string dishName;
     public int requiredIngredients;
 
-    public int ingredientCount;
 
     private void OnTriggerEnter2D(Collider2D collision)
     {

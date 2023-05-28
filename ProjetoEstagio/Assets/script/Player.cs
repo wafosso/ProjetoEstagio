@@ -1,10 +1,13 @@
 using UnityEngine;
 using System.Collections;
+using Unity.VisualScripting;
+using UnityEditor;
 
 public class Player : MonoBehaviour
 {
     public float moveSpeed = 5f;
     public Transform holdPosition;
+    public Transform deliveryPoint;
 
     private Rigidbody2D rb;
 
@@ -21,7 +24,7 @@ public class Player : MonoBehaviour
         rb.freezeRotation = true; // Desativar rotação automática do Rigidbody2D
     }
 
-    private void Update()
+    void Update()
     {
         // Movimentação do jogador
         float moveHorizontal = Input.GetAxis("Horizontal");
@@ -42,32 +45,41 @@ public class Player : MonoBehaviour
             StartCoroutine(Dash(dashDirection));
         }
 
-        // Interagir com objetos
-        if (Input.GetKeyDown(KeyCode.Space))
+        // Interação com objetos
+
+        if (heldObject == null)
         {
-            if (heldObject == null)
+            // Verifica se há algum objeto próximo para pegar
+            Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, 1f);
+
+            foreach (Collider2D collider in colliders)
             {
-                // Verifica se há algum objeto próximo para pegar
-                Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, 1f);
-
-                foreach (Collider2D collider in colliders)
+                if (collider.CompareTag("Pickupable"))
                 {
-                    if (collider.CompareTag("Pickupable"))
-                    {
-                        // Pega o objeto
-                        heldObject = collider.gameObject;
-                        heldObject.transform.position = holdPosition.position;
-                        heldObject.transform.parent = holdPosition;
+                    // Pega o objeto
+                    heldObject = collider.gameObject;
+                    heldObject.transform.parent = holdPosition.transform;
+                    heldObject.transform.position = holdPosition.position;
 
-                        break;
-                    }
+                    Debug.Log("Objeto pego: " + heldObject.name);
+
+
+                    break;
                 }
             }
-            else
+        }
+        else
+        {
+            // Entrega o objeto
+            float deliveryDistance = Vector2.Distance(transform.position, deliveryPoint.position);
+
+            if (deliveryDistance <= 2f)
             {
-                // Entrega o objeto
+                heldObject.transform.position = new Vector3(11.5f,0,0);
                 heldObject.transform.parent = null;
                 heldObject = null;
+
+                Debug.Log("Objeto entregue");
             }
         }
     }
