@@ -75,7 +75,7 @@ public class Player : MonoBehaviour
 
             if (deliveryDistance <= 2f)
             {
-                heldObject.transform.position = new Vector3(11.5f,0,0);
+                heldObject.transform.position = new Vector3(8f,0,0);
                 heldObject.transform.parent = null;
                 heldObject = null;
 
