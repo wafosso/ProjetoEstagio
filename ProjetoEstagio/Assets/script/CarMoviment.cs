@@ -43,7 +43,7 @@ public class CarMoviment : MonoBehaviour
 
         if (moviment != Vector2.zero)
         {
-            float angle = Mathf.Atan2(horizontalMoviment, verticalMoviment) * Mathf.Rad2Deg;
+            float angle = Mathf.Atan2(-horizontalMoviment, verticalMoviment) * Mathf.Rad2Deg;
             transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
         }
     }
@@ -77,6 +77,7 @@ public class CarMoviment : MonoBehaviour
     private void OnCollisionExit2D(Collision2D collision)
     {
         enterStageMap = false;
+        stage1 = false;
     }
 
 
