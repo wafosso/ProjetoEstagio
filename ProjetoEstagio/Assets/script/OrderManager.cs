@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class OrderManager : MonoBehaviour
@@ -12,9 +13,9 @@ public class OrderManager : MonoBehaviour
     private TimeManager timeManager;
     private float nextSpawnTime = 0f;
     public float spawnInterval = 15f;
-
+    public GameObject medics;
     private int orderGenerated = 0;
-
+    public GameObject point1, point2;
     private void Start()
     {
         // Exemplo de criação de pedidos pré-definidos
@@ -44,7 +45,16 @@ public class OrderManager : MonoBehaviour
             Debug.Log(" - " + ingredient);
         }
     }*/
-
+    public void Update()
+    {
+        medics.transform.position = Vector3.MoveTowards(point1.transform.position, point2.transform.position, 10f);
+    }
+    public void SpawnMedic()
+    {
+       
+            Instantiate(medics, point1.transform.position, Quaternion.identity);
+        
+    }
     IEnumerator SpawnOrders()
     {
 
@@ -53,14 +63,15 @@ public class OrderManager : MonoBehaviour
 
         while (x <= 3.5f)
         {
-           
-                Vector2 spawnPosition = new Vector2(x, y);
-                Instantiate(orderPrefab[Random.Range(0, orderPrefab.Length)], spawnPosition, Quaternion.identity);
-                yield return new WaitForSeconds(5f);
-                orderGenerated++;
-                x += 1.9f;
-               
-            
+
+            Vector2 spawnPosition = new Vector2(x, y);
+            Instantiate(orderPrefab[Random.Range(0, orderPrefab.Length)], spawnPosition, Quaternion.identity);
+            yield return new WaitForSeconds(5f);
+            SpawnMedic();
+            orderGenerated++;
+            x += 1.9f;
+
+
             yield return null;
         }
     }

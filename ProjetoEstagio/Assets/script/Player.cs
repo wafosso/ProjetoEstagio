@@ -8,7 +8,7 @@ public class Player : MonoBehaviour
     public float moveSpeed = 5f;
     public Transform holdPosition;
     public Transform deliveryPoint;
-
+    public GameObject medico;
     private Rigidbody2D rb;
 
     public GameObject heldObject;
@@ -33,11 +33,16 @@ public class Player : MonoBehaviour
         Vector2 movement = new Vector2(moveHorizontal, moveVertical);
         rb.velocity = movement * moveSpeed;
 
-        if (movement != Vector2.zero)
+
+
+        if (movement.x < 0)
         {
-            float angle = Mathf.Atan2(moveVertical, moveHorizontal) * Mathf.Rad2Deg;
-            transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
+            Debug.Log("62626262626262626262");
+            this.gameObject.GetComponent<SpriteRenderer>().flipX = false;
         }
+        else if (movement.x > 0)
+            this.gameObject.GetComponent<SpriteRenderer>().flipX = true;
+
 
         if (Input.GetKeyDown(dashKey) && !isDashing)
         {
@@ -80,7 +85,7 @@ public class Player : MonoBehaviour
                 heldObject = null;
 
                 Debug.Log("Objeto entregue");
-
+     
                 heldObject.tag = "Delivered";
             }
         }
