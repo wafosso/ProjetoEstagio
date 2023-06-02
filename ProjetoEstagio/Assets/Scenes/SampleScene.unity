@@ -474,7 +474,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7674527316346616125, guid: dd4f783c69359b14d96008b40cc1f777, type: 3}
       propertyPath: stageIndex.Array.size
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7674527316346616125, guid: dd4f783c69359b14d96008b40cc1f777, type: 3}
       propertyPath: stageSelect.Array.size
@@ -490,7 +490,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7674527316346616125, guid: dd4f783c69359b14d96008b40cc1f777, type: 3}
       propertyPath: stageIndex.Array.data[0]
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7674527316346616125, guid: dd4f783c69359b14d96008b40cc1f777, type: 3}
       propertyPath: stageIndex.Array.data[1]
