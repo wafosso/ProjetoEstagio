@@ -1,10 +1,19 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class OrderManager : MonoBehaviour
 {
     public List<Order> orders = new List<Order>(); // Lista de pedidos pendentes
+
+    public TextMeshProUGUI orderText;
+    public GameObject[] orderPrefab;
+    private TimeManager timeManager;
+    private float nextSpawnTime = 0f;
+    public float spawnInterval = 15f;
+
+    private int orderGenerated = 0;
 
     private void Start()
     {
@@ -15,13 +24,16 @@ public class OrderManager : MonoBehaviour
         orders.Add(order1);
         orders.Add(order2);
 
+        timeManager = gameObject.GetComponent<TimeManager>();
+
+        StartCoroutine(SpawnOrders());
+
         // Gerar um pedido aleatório
-        GenerateRandomOrder();
+        //GenerateRandomOrder();
     }
 
-    private void GenerateRandomOrder()
+    /*private void GenerateRandomOrder()
     {
-        // Lógica para gerar um pedido aleatório
         int randomIndex = Random.Range(0, orders.Count);
         Order randomOrder = orders[randomIndex];
         Debug.Log("Novo pedido: " + randomOrder.dishName);
@@ -31,17 +43,37 @@ public class OrderManager : MonoBehaviour
         {
             Debug.Log(" - " + ingredient);
         }
-    }
-}
+    }*/
 
-public class Order
-{
-    public string dishName;
-    public List<string> ingredients;
-
-    public Order(string name, List<string> ingredientList)
+    IEnumerator SpawnOrders()
     {
-        dishName = name;
-        ingredients = ingredientList;
+
+        float x = -7.9f;
+        float y = 4.1f;
+
+        while (x <= 3.5f)
+        {
+           
+                Vector2 spawnPosition = new Vector2(x, y);
+                Instantiate(orderPrefab[Random.Range(0, orderPrefab.Length)], spawnPosition, Quaternion.identity);
+                yield return new WaitForSeconds(5f);
+                orderGenerated++;
+                x += 1.9f;
+               
+            
+            yield return null;
+        }
+    }
+
+    public class Order
+    {
+        public string dishName;
+        public List<string> ingredients;
+
+        public Order(string name, List<string> ingredientList)
+        {
+            dishName = name;
+            ingredients = ingredientList;
+        }
     }
 }

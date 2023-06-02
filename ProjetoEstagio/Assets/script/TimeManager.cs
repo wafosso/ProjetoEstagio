@@ -12,7 +12,6 @@ public class TimeManager : MonoBehaviour
     private bool isTimerRunning = false;
 
     public TextMeshProUGUI timerText;
-    public GameManager gameManager; // Referência para o gerenciador do jogo
 
     private void Start()
     {
@@ -34,6 +33,11 @@ public class TimeManager : MonoBehaviour
         }
     }
 
+    public bool IsTimerRunning()
+    {
+        return isTimerRunning;
+    }
+
     public void StartTimer()
     {
         isTimerRunning = true;
@@ -51,14 +55,6 @@ public class TimeManager : MonoBehaviour
     private void FinishLevel()
     {
         isTimerRunning = false;
-        gameManager.EndLevel();
-    }
-}
-
-public class GameManager : MonoBehaviour
-{
-    public void EndLevel()
-    {
         SceneManager.LoadScene("GameOver");
     }
 }

@@ -80,6 +80,8 @@ public class Player : MonoBehaviour
                 heldObject = null;
 
                 Debug.Log("Objeto entregue");
+
+                heldObject.tag = "Delivered";
             }
         }
     }

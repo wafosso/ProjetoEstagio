@@ -2129,7 +2129,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0367d5c28f294d048920bd82bf6f0e63, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  menuSceneName: Stage 1
+  menuSceneName: SampleScene
   panelMainMenu: {fileID: 243991224}
   panelOptions: {fileID: 1987534582}
 --- !u!4 &1716320794
